@@ -2,3 +2,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    background: #222222;
+    @apply font-body px-5;
+  }
+  .page-container {
+    width: 1280px;
+    @apply mx-auto mt-6;
+  }
+  .banner .swiper {
+    height: 100%;
+  }
+  .movie-list .swiper-slide {
+    width: 240px;
+  }
+}
