@@ -1,21 +1,25 @@
 import React from "react";
 import { WatchIcon } from "../icons";
-import MovieList from "./MovieList";
+import { useNavigate } from "react-router-dom";
+import { tmdbAPI } from "../../config";
+import Skeleton from "../loading/Skeleton";
+import { Button } from "../button";
 
 const CardMovie = ({ movie }) => {
-  const { vote_average, title, poster_path, release_date } = movie;
+  const { vote_average, title, poster_path, release_date, id } = movie;
+  const navigate = useNavigate();
   return (
     <div className="relative p-3 overflow-hidden text-white rounded-lg bg-[rgba(255,255,255,0.1)] select-none">
       <div className="absolute inset-3 z-[-1] overflow-hidden blur-2xl">
         <div
           className="w-full h-full blur-3xl"
           style={{
-            backgroundImage: `url('https://image.tmdb.org/t/p/w500/${poster_path}')`,
+            backgroundImage: `url('${tmdbAPI.getImg(poster_path, "w500")}')`,
           }}
         ></div>
       </div>
       <img
-        src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+        src={tmdbAPI.getImg(poster_path, "w500")}
         alt=""
         className="h-[250px] w-full object-cover rounded-lg"
       />
@@ -38,13 +42,35 @@ const CardMovie = ({ movie }) => {
             </svg>
           </div>
         </div>
-        <button className="flex items-center justify-center w-full gap-2 px-4 py-2 rounded-lg bg-primary">
+
+        <Button onClick={() => navigate(`/movie/${id}`)}>
           Watch now
           <WatchIcon></WatchIcon>
-        </button>
+        </Button>
       </div>
     </div>
   );
 };
 
 export default CardMovie;
+
+export const CardMovieSkeleton = () => {
+  return (
+    <div className="relative p-3 overflow-hidden text-white rounded-lg bg-[rgba(255,255,255,0.1)] select-none">
+      <Skeleton height="250px" width="100%" rounded="8px"></Skeleton>
+      <div className="flex flex-col gap-2 mt-2">
+        <Skeleton height="24px" width="100%" rounded="4px"></Skeleton>
+        <div className="flex items-center justify-between text-xs text-gray-200">
+          <Skeleton height="16px" width="50px" rounded="4px"></Skeleton>
+
+          <div className="flex items-center gap-1">
+            <Skeleton height="16px" width="24px" rounded="4px"></Skeleton>
+
+            <Skeleton height="16px" width="16px" rounded="4px"></Skeleton>
+          </div>
+        </div>
+        <Skeleton height="40px" width="100%" rounded="8px"></Skeleton>
+      </div>
+    </div>
+  );
+};

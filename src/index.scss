@@ -19,3 +19,34 @@
     width: 240px;
   }
 }
+
+// Pagination style
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  gap: 16px;
+  .selected {
+    @apply text-primary;
+  }
+}
+
+// Skeleton style
+.skeleton {
+  background-color: #eee;
+  background-image: linear-gradient(
+    90deg,
+    #ececec 8%,
+    #f5f5f5 18%,
+    #ececec 33%
+  );
+  background-size: 200% 100%;
+  animation: 1s shine linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}

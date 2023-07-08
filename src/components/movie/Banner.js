@@ -3,6 +3,8 @@ import { WatchIcon } from "../icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useSWR from "swr";
 import { fetcher } from "../../config";
+import { Button } from "../button";
+import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
   const { data } = useSWR(
@@ -11,7 +13,6 @@ const Banner = () => {
   );
 
   const movies = data?.results || [];
-  console.log("🚀 ~ file: Banner.js:15 ~ Banner ~ movies:", movies);
   return (
     <section className="banner relative h-[460px] overflow-hidden rounded-lg banner page-container">
       <Swiper>
@@ -27,7 +28,8 @@ const Banner = () => {
 };
 
 const BannerItem = ({ movie }) => {
-  const { vote_average, title, poster_path, release_date } = movie;
+  const navigate = useNavigate();
+  const { id, vote_average, title, poster_path, release_date } = movie;
   return (
     <div className="w-full h-full">
       <img
@@ -46,10 +48,10 @@ const BannerItem = ({ movie }) => {
             Action
           </span>
         </div>
-        <button className="flex items-center w-[120px] justify-center gap-2 px-4 py-2 rounded-lg bg-primary">
+        <Button onClick={() => navigate(`/movie/${id}`)} className="w-[140px]">
           Watch
           <WatchIcon></WatchIcon>
-        </button>
+        </Button>
       </div>
     </div>
   );

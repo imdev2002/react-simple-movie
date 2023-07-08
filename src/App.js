@@ -1,30 +1,41 @@
-import { Fragment } from "react";
-import { NavLink } from "react-router-dom";
-import { WatchIcon } from "./components/icons";
-import MovieList from "./components/movie/MovieList";
-import Banner from "./components/movie/Banner";
+import { Fragment, lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
 import "swiper/css";
+import Main from "./layout/Main";
+// import HomePage from "./pages/HomePage";
+import Banner from "./components/movie/Banner";
+// import MoviePage from "./pages/MoviePage";
+// import MovieDetailPage from "./pages/MovieDetailPage";
+const HomePage = lazy(() => import("./pages/HomePage"));
+const MoviePageLoadMore = lazy(() => import("./pages/MoviePageLoadMore"));
+const MovieDetailPage = lazy(() => import("./pages/MovieDetailPage"));
 
 function App() {
   return (
     <Fragment>
-      <header className="flex items-center justify-center gap-4 py-10 text-white header">
-        <NavLink className="text-primary">Home</NavLink>
-        <NavLink>Movies</NavLink>
-      </header>
-      <Banner></Banner>
-      <section className="page-container">
-        <h2 className="mb-3 text-4xl font-semibold text-white">Now Playing</h2>
-        <MovieList></MovieList>
-      </section>
-      <section className="page-container">
-        <h2 className="mb-3 text-4xl font-semibold text-white">Popular</h2>
-        <MovieList type="popular"></MovieList>
-      </section>
-      <section className="page-container">
-        <h2 className="mb-3 text-4xl font-semibold text-white">Top Rated</h2>
-        <MovieList type="top_rated"></MovieList>
-      </section>
+      <Suspense>
+        <Routes>
+          <Route element={<Main></Main>}>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Banner></Banner>
+                  <HomePage></HomePage>
+                </>
+              }
+            ></Route>
+            <Route
+              path="/movies"
+              element={<MoviePageLoadMore></MoviePageLoadMore>}
+            ></Route>
+            <Route
+              path="/movie/:id"
+              element={<MovieDetailPage></MovieDetailPage>}
+            ></Route>
+          </Route>
+        </Routes>
+      </Suspense>
     </Fragment>
   );
 }
